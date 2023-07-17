@@ -1,38 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { selectCars } from "../features/car/carSlice";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LanguageIcon from "@mui/icons-material/Language";
 
 function Header() {
   const [burgerStatus, setBurgerStatus] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const cars = useSelector(selectCars);
-  // console.log(cars);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const headerHeight = window.innerHeight;
+      setIsScrolled(scrollPosition >= headerHeight);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <Container>
-      <a href="#">
-        <img src="/images/logo.svg" alt="" />
-      </a>
-      <Menu>
-        {cars &&
-          cars.map((car, index) => (
-            <a key={index} href="#">
-              {car}
-            </a>
-          ))}
-      </Menu>
-      <RightMenu>
-        <a href="#">Shop</a>
-        <a href="#">Tesla Account</a>
-        <CustomMenu onClick={() => setBurgerStatus(true)} />
-      </RightMenu>
-      <BurgerNav show={burgerStatus}>
-        <CloseWrapper>
-          <CustomClose onClick={() => setBurgerStatus(false)} />
-        </CloseWrapper>
+    <Container isScrolled={isScrolled}>
+    <a href="#">
+      {isScrolled ? <img src="/images/logo.svg" alt="" /> : <img src="/images/white_logo.svg" alt="" />}
+    </a>
+    <Menu isScrolled={isScrolled}>
+      {cars &&
+        cars.map((car, index) => (
+          <a key={index} href="#">
+            {car}
+          </a>
+        ))}
+    </Menu>
+    <RightMenu isScrolled={isScrolled}>
+      <a href="#">Shop</a>
+      <a href="#">Account</a>
+      <CustomMenu onClick={() => setBurgerStatus(true)} />
+    </RightMenu>
+    <BurgerNav show={burgerStatus}>
+      <CloseWrapper>
+        <CustomClose onClick={() => setBurgerStatus(false)} />
+      </CloseWrapper>
         {cars &&
           cars.map((car, index) => (
             <li key={index}>
@@ -100,7 +113,7 @@ function Header() {
             <p>English</p>
           </LanguageLi>
         </li>
-      </BurgerNav>
+        </BurgerNav>
       <Overlay show={burgerStatus} onClick={() => setBurgerStatus(false)} />
     </Container>
   );
@@ -119,6 +132,8 @@ const Container = styled.div`
   left: 0;
   right: 0;
   z-index: 1;
+  color: ${(props) => (props.isScrolled ? "black" : "white")};
+  transition: color 0.5s;
 `;
 const Menu = styled.div`
   display: flex;
@@ -126,10 +141,12 @@ const Menu = styled.div`
   justify-content: center;
   flex: 1;
   a {
+    font-size: 15px;
     font-weight: 600;
-    text-transform: uppercase;
-    padding: 0 10px;
+    // text-transform: uppercase;
+    padding: 0 15px;
     flex-wrap: nowrap;
+    color: ${(props) => (props.isScrolled ? "black" : "white")};
   }
   @media (max-width: 768px) {
     display: none;
@@ -139,9 +156,11 @@ const RightMenu = styled.div`
   display: flex;
   align-items: center;
   a {
+    font-size: 15px;
     font-weight: 600;
-    text-transform: uppercase;
-    margin-right: 10px;
+    // text-transform: uppercase;
+    margin-right: 30px;
+    color: ${(props) => (props.isScrolled ? "black" : "white")};
   }
 `;
 const CustomMenu = styled(MenuIcon)`
@@ -164,6 +183,7 @@ const BurgerNav = styled.div`
   transform: ${(props) => (props.show ? "translateX(0)" : "translateX(100%)")};
   transition: transform 0.5s;
   overflow-y: auto;
+  
 
   li {
     display: flex;
@@ -171,9 +191,11 @@ const BurgerNav = styled.div`
     margin: 5px 25px 5px 5px;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    
 
     a {
       font-weight: 600;
+      color: #393c41;
     }
   }
   li:hover{
@@ -182,6 +204,7 @@ const BurgerNav = styled.div`
 `;
 const CustomClose = styled(CloseIcon)`
   cursor: pointer;
+  color: ${(props) => (props.isScrolled ? "black" : "black")};
 `;
 const CloseWrapper = styled.div`
   position: sticky;
