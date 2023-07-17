@@ -6,6 +6,12 @@ function Home() {
   return (
     <Container>
       <Section
+        title="Experience Tesla"
+        description="Schedule a Demo Drive Today"
+        backgroundVideo = "tesla.mp4"
+        leftBtnText="Demo Drive"
+      />
+      <Section
         title="Model S"
         description="Order Online for Touchless Delivery"
         backgroundImg="model-s.jpg"
@@ -57,3 +63,4 @@ export default Home;
 const Container = styled.div`
   height: 100vh;
 `;
+
