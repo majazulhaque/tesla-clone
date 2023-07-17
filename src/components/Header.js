@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from '@mui/icons-material/Close';
+import {selectCars} from "../features/car/carSlice";
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
 
 function Header() {
     const [burgerStatus, setBurgerStatus] = useState(false);
+    const cars = useSelector(selectCars);
+    // console.log(cars);
   return (
     <Container>
       <a href="#">
@@ -96,6 +100,7 @@ const BurgerNav = styled.div`
   flex-direction: column;
   text-align: start;
   transform: ${props=> props.show ? 'translateX(0)': 'translateX(100%)'};
+  transition: transform 0.2s;
   li{
     padding: 15px 0;
     border-bottom: 1px solid rgba(0, 0, 0, .2);
