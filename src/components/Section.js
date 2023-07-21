@@ -14,8 +14,8 @@ function Section(props) {
       ) : null}
       <Fade bottom>
         <ItemText>
-         {backgroundVideo ? <h1 style={{color:"white",fontSize:"3rem", fontFamily:"initial"}}>{title}</h1> :<h1>{title}</h1>}
-          {backgroundVideo ? <p style={{color:"white",fontSize:"1.1rem",fontFamily:"initial"}}>{description}</p> :<p>{description}</p>}
+         {backgroundVideo ? <h1 style={{color:"white",fontSize:"3rem", fontFamily:"initial"}}>{title}</h1> :<h1 style={{fontSize:"3rem",color:"#1E1D1D",fontFamily:"initial",fontWeight:"500"}}>{title}</h1>}
+          {backgroundVideo ? <p style={{color:"white",fontSize:"1.1rem",fontFamily:"initial"}}>{description}</p> :<p style={{fontFamily:"initial",fontSize:"1.1rem"}}>{description}</p>}
         </ItemText>
       </Fade>
       <Buttons>
@@ -74,10 +74,10 @@ const ButtonGroup = styled.div`
 `;
 
 const LeftButton = styled.div`
-  background-color: rgba(23, 26, 32, 0.8);
+  background-color: white;
   height: 40px;
   width: 256px;
-  color: white;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,9 +91,9 @@ const LeftButton = styled.div`
 `;
 
 const RightButton = styled(LeftButton)`
-  background-color: white;
+  background-color: rgba(23, 26, 32, 0.8);
   opacity: 0.65;
-  color: black;
+  color: white;
 `;
 
 const DemoButton = styled(LeftButton)`

@@ -9,6 +9,7 @@
 body{
   width: 100%;
   overflow-x: hidden;
+  /* color: rgb(30, 29, 29); */
 }
 
 a{
@@ -28,3 +29,19 @@ a{
     transform: translateY(3px);
   }
 }
+
+@keyframes shine {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+
+
