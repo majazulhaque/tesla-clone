@@ -32,8 +32,8 @@ const Header = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1;
-  color: white;
+  z-index: 1000;
+  background-color: white;
   transition: color 0.5s;
 `;
 

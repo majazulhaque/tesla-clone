@@ -1,12 +1,109 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import ErrorIcon from "@mui/icons-material/Error";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 function CarDetail() {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  const images = [
+    "./images/teslaCar1.jpg",
+    "./images/teslaCar2.jpg",
+    "./images/teslaCar3.jpg",
+    "./images/teslaCar4.jpg",
+    "./images/teslaCar5.jpg",
+  ];
+
+  // State to track the current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Ref for the Slider component
+  const sliderRef = useRef();
+
+  // Function to handle the click on the ChevronLeftIcon
+  const handleLeftIconClick = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  // Function to handle the click on the ChevronRightIcon
+  const handleRightIconClick = () => {
+    if (currentImageIndex < images.length - 1) {
+      setCurrentImageIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  // Function to automatically change the image after 3 seconds
+  const autoChangeImage = () => {
+    if (currentImageIndex < images.length - 1) {
+      setCurrentImageIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setCurrentImageIndex(0);
+    }
+  };
+
+  // Start the interval for automatic image change when the component mounts
+  useEffect(() => {
+    const interval = setInterval(autoChangeImage, 3000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [currentImageIndex]);
+
   return (
     <>
       <MainContainer>
-        <ImageContainer></ImageContainer>
+        <ImageContainer>
+          <ChevronLeftIcon
+            style={{
+              fontSize: "3rem",
+              position: "absolute",
+              left: "10px",
+              top: "50%",
+              zIndex: "1000",
+              padding: "8px",
+              borderRadius: "5px",
+              backgroundColor: "#eee",
+              cursor: "pointer",
+            }}
+            onClick={handleLeftIconClick}
+          />
+          <SliderContainer {...settings} ref={sliderRef} initialSlide={currentImageIndex}>
+            {images.map((image, index) => (
+                (currentImageIndex === index &&
+                    <div key={index}>
+                <img src={image} alt={`Product Image ${index + 1}`} />
+              </div>
+                    )
+              
+            ))}
+          </SliderContainer>
+          <ChevronRightIcon
+            style={{
+              fontSize: "3rem",
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              zIndex: "1000",
+              padding: "8px",
+              borderRadius: "5px",
+              backgroundColor: "#eee",
+              cursor: "pointer",
+            }}
+            onClick={handleRightIconClick}
+          />
+        </ImageContainer>
         <DetailContainer>
           <ItemText>
             <h1>Model X</h1>
@@ -305,17 +402,44 @@ export default CarDetail;
 const MainContainer = styled.div`
   width: 100vw;
   display: flex;
+  overflow: hidden;
 `;
 const ImageContainer = styled.div`
-  width: 70%;
+width: 70%;
+margin-top: 3vh;
+height: 90vh;
+overflow: hidden;
+position: fixed;
+top: 0;
+left: 0;
+z-index: 1;
 `;
+
+const SliderContainer = styled(Slider)`
+  /* Override default slick-slider styles to fit the images within the container */
+  .slick-list {
+    overflow: hidden;
+  }
+
+  .slick-slide img {
+    width: 100%;
+    height: auto;
+  }
+`;
+
 const DetailContainer = styled.div`
   width: 30%;
-  margin-top: 15vh;
-  display: flex;
+  height: 100vh;
+  margin-left: 70%; /* Ensure the DetailContainer starts where the ImageContainer ends */
   padding: 4rem;
-  flex-direction: column;
-  align-items: center;
+  flex-shrink: 0; /* Prevent the DetailContainer from shrinking */
+  overflow-y: auto; /* Enable vertical scrolling for the content */
+  //   width: 30%;
+  //   margin-top: 10vh;
+  //   display: flex;
+  //   padding: 4rem;
+  //   flex-direction: column;
+  //   align-items: center;
 `;
 const ItemText = styled.div`
   width: 100%;
@@ -338,7 +462,7 @@ const DeliveryZip = styled.div`
   padding: 20px;
   justify-content: space-between;
   align-items: center;
-  cursor:pointer;
+  cursor: pointer;
   p {
     margin-left: 10px;
     text-decoration: underline;
@@ -438,7 +562,7 @@ const DualMoter = styled.div`
   border-radius: 5px;
   padding: 15px 10px;
   color: black;
-  cursor:pointer;
+  cursor: pointer;
 `;
 const TriMoter = styled.div`
   display: flex;
@@ -447,14 +571,14 @@ const TriMoter = styled.div`
   border-radius: 5px;
   padding: 15px 10px;
   color: gray;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const LearnMore = styled.div`
   margin: 20px;
   color: gray;
   font-size: 13px;
-  cursor:pointer;
+  cursor: pointer;
   p {
     a {
       text-decoration: underline;
@@ -471,7 +595,7 @@ const FeatureDetail = styled.div`
     padding: 8px 25px;
     border: none;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 
@@ -492,7 +616,7 @@ const White = styled.div`
   img {
     width: 60px;
     padding: 7px;
-    cursor:pointer;
+    cursor: pointer;
   }
   //   img:hover{
   //     border: 3.5px solid blue;
@@ -503,7 +627,7 @@ const Black = styled.div`
   img {
     width: 60px;
     padding: 7px;
-    cursor:pointer;
+    cursor: pointer;
   }
   //   img:hover{
   //     border: 3.5px solid blue;
@@ -514,7 +638,7 @@ const Gray = styled.div`
   img {
     width: 60px;
     padding: 7px;
-    cursor:pointer;
+    cursor: pointer;
   }
   //   img:hover{
   //     border: 3.5px solid blue;
@@ -527,7 +651,7 @@ const Blue = styled.div`
     padding: 7px;
     border: 3.5px solid blue;
     border-radius: 50%;
-    cursor:pointer;
+    cursor: pointer;
   }
   //   img:hover{
   //     border: 3.5px solid blue;
@@ -538,7 +662,7 @@ const Red = styled.div`
   img {
     width: 60px;
     padding: 7px;
-    cursor:pointer;
+    cursor: pointer;
   }
   //   img:hover{
   //     border: 3.5px solid blue;
@@ -600,7 +724,7 @@ const WheelDetail = styled.div`
     border-radius: 5px;
     border: none;
     background-color: rgb(245, 242, 242);
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const WheelName = styled.div`
@@ -640,7 +764,7 @@ const Interior = styled.div`
     border-radius: 5px;
     border: none;
     margin-top: 20px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const InteriorCol = styled.div`
@@ -651,7 +775,7 @@ const Cream = styled.div`
   img {
     width: 60px;
     padding: 7px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const InteriorColorDetail = styled.div`
@@ -678,7 +802,7 @@ const SeatingLayout = styled.div`
   a {
     color: blue;
     margin-top: 10px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 
@@ -709,7 +833,7 @@ const Five = styled.div`
     background-color: rgb(245, 242, 242);
     border-radius: 50%;
     padding: 10px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const Six = styled.div`
@@ -721,7 +845,7 @@ const Six = styled.div`
     background-color: rgb(245, 242, 242);
     border-radius: 50%;
     padding: 10px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const Seven = styled.div`
@@ -733,7 +857,7 @@ const Seven = styled.div`
     background-color: rgb(245, 242, 242);
     border-radius: 50%;
     padding: 10px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const SteeringControl = styled.div`
@@ -801,7 +925,7 @@ const ButtonAdd = styled.div`
     border-radius: 5px;
     border: none;
     margin-top: 20px;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const SelfDriving = styled.div`
@@ -837,7 +961,7 @@ const Charging = styled.div`
     border-radius: 5px;
     border: none;
     background-color: rgb(245, 242, 242);
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 const ChargingIcon = styled.div`
@@ -854,16 +978,16 @@ const WallConnector = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 0px;
-  color:gray;
+  color: gray;
   justify-content: space-between;
-  cursor:pointer;
+  cursor: pointer;
   div {
     display: flex;
     align-items: center;
     input {
       width: 25px;
       height: 25px;
-      cursor:pointer;
+      cursor: pointer;
     }
     p {
       margin-left: 7px;
@@ -871,19 +995,19 @@ const WallConnector = styled.div`
   }
 `;
 const MobileConnector = styled.div`
-display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   padding: 10px 0px;
   color: gray;
-  justify-content:space-between;
-  cursor:pointer;
+  justify-content: space-between;
+  cursor: pointer;
   div {
     display: flex;
     align-items: center;
     input {
       width: 25px;
       height: 25px;
-      cursor:pointer;
+      cursor: pointer;
     }
     p {
       margin-left: 7px;
@@ -892,20 +1016,20 @@ display:flex;
 `;
 const OrderYourModel = styled.div`
   margin-top: 15vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  p{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
     margin: 20px 0px;
   }
-  button{
+  button {
     background-color: #3e6ae1;
     border-radius: 5px;
-    border:none;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
     padding: 10px 20px;
     width: 100%;
   }
-`
+`;
