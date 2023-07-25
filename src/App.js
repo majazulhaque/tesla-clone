@@ -1,17 +1,26 @@
 import React from 'react';
 import './App.css';
-import Header from './components/Header';
-import Home from './components/Home';
-import Car from './components/Car';
-import CarDetail from './components/CarDetail';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import CarHome from './components/HomeCar/CarHome';
+import Car from './components/CarDetails/Car';
+import { CarDetailData } from './components/CarDetails/CarDetailData';
+import SolarRoof from './components/SolarRoofDetails/SolarRoof';
+import SolarPanel from './components/SolarPanelDetails/SolarPanel';
 
 function App() {
   return (
-    <div className="App">
-      <Car/>
-      {/* <Header/> */}
-      {/* <Home/> */}
-    </div>
+    <BrowserRouter>
+    <Routes>
+        <Route path="/" exact element={<CarHome/>} />
+        <Route path="/1" element={<Car cardata={CarDetailData[0]}/>} />
+        <Route path="/2" element={<Car cardata={CarDetailData[1]}/>} />
+        <Route path="/3" element={<Car cardata={CarDetailData[2]}/>} />
+        <Route path="/4" element={<Car cardata={CarDetailData[3]}/>} />
+        <Route path="/5" exact element={<SolarRoof/>} />
+        <Route path="/6" exact element={<SolarPanel/>} />
+        
+    </Routes>
+    </BrowserRouter>
   );
 }
 
