@@ -26,7 +26,7 @@ function SolarHeader(props) {
   }, []);
   return (
     <Container isScrolled={isScrolled}>
-      <a href="#">
+      <a href="/">
         {isScrolled ? (
           <img src="/images/white_logo.svg" alt="" />
         ) : (
@@ -53,7 +53,7 @@ function SolarHeader(props) {
         {cars &&
           cars.map((car, index) => (
             <li key={index}>
-              <a href="#">{car}</a>
+              <a href={index+1}>{car}</a>
             </li>
           ))}
         <li>

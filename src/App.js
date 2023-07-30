@@ -6,6 +6,7 @@ import Car from './components/CarDetails/Car';
 import { CarDetailData } from './components/CarDetails/CarDetailData';
 import SolarRoof from './components/SolarRoofDetails/SolarRoof';
 import SolarPanel from './components/SolarPanelDetails/SolarPanel';
+import PowerWall from './components/PowerWallDetails/PowerWall';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/4" element={<Car cardata={CarDetailData[3]}/>} />
         <Route path="/5" exact element={<SolarRoof/>} />
         <Route path="/6" exact element={<SolarPanel/>} />
+        <Route path="/7" exact element={<PowerWall/>} />
         
     </Routes>
     </BrowserRouter>

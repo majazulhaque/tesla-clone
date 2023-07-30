@@ -75,7 +75,7 @@ const CarDetailData = [
       title: "Experience Tesla",
       description: "Schedule a Demo Drive Today",
       backgroundImg: "",
-      backgroundVideo: "tesla.mp4",
+      backgroundVideo: "./videos/HomeVideo.webm",
       leftBtnText: "Demo Drive",
       rightBtnText:"",
     },
